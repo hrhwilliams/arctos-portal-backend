@@ -9,11 +9,12 @@ async fn main() -> Result<(), std::io::Error> {
     Ok(())
 }
 
+#[cfg(test)]
 mod tests {
     use super::*;
 
     #[test]
     fn placeholder() {
-        assert!(one() == 1)
+        assert_eq!(one(), 1);
     }
 }
