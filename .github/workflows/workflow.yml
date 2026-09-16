@@ -1,37 +1,46 @@
 name: CI
-
+ 
 on:
   pull_request:
     branches:
       - main
+ 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-  env:
-    SCCACHE_GHA_ENABLED: "true"
-    RUSTC_WRAPPER: "sccache"
-  steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: stable
-        override: true
-
-    - name: Install cargo-nextest
-      uses: taiki-e/install-action@cargo-nextest
-  
-    - name: Run sccache-cache
-      uses: mozilla-actions/sccache-action@v0.0.7
-
-    - name: Check formatting
-      run: cargo fmt --all --check
-
-    - name: Run Clippy
-      run: cargo clippy --all-targets -- -D warnings
-
-    - name: Run Tests
-      run: cargo nextest run
+    env:
+      SCCACHE_GHA_ENABLED: "true"
+      RUSTC_WRAPPER: "sccache"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy, llvm-tools-preview
+ 
+      - name: Install cargo-nextest and cargo-llvm-cov
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest,cargo-llvm-cov
+ 
+      - name: Run sccache-cache
+        uses: mozilla-actions/sccache-action@v0.0.7
+ 
+      - name: Check formatting
+        run: cargo fmt --all --check
+ 
+      - name: Run Clippy
+        run: cargo clippy --all-targets -- -D warnings
+ 
+      - name: Run tests with coverage
+        run: cargo llvm-cov nextest --lcov --output-path lcov.info
+ 
+      - name: Upload coverage report to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: lcov.info
+          fail_ci_if_error: true
+ 
