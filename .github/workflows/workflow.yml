@@ -11,10 +11,10 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    env:
-      SCCACHE_GHA_ENABLED: "true"
-      RUSTC_WRAPPER: "sccache"
-      SCCACHE_IGNORE_SERVER_IO_ERROR: "1"
+    # env:
+    #   SCCACHE_GHA_ENABLED: "true"
+    #   RUSTC_WRAPPER: "sccache"
+    #   SCCACHE_IGNORE_SERVER_IO_ERROR: "1"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,9 +29,12 @@ jobs:
         with:
           tool: cargo-nextest,cargo-llvm-cov
  
-      - name: Run sccache-cache
-        uses: mozilla-actions/sccache-action@v0.0.7
- 
+      # - name: Run sccache-cache
+      #   uses: mozilla-actions/sccache-action@v0.0.7
+
+      - name: Cache cargo registry and target dir
+        uses: Swatinem/rust-cache@v2
+
       - name: Check formatting
         run: cargo fmt --all --check
  
