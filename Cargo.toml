@@ -28,6 +28,7 @@ panic_in_result_fn = "deny"
 panic = "deny"
 exit = "deny"
 as_conversions = "deny"
+missing_errors_doc = "allow"
 
 [dependencies]
 axum = "0.8.9"
