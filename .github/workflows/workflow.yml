@@ -51,3 +51,42 @@ jobs:
           files: lcov.info
           fail_ci_if_error: true
  
+  mutants:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+ 
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+ 
+      - name: Install cargo-mutants
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-mutants
+ 
+      - name: Cache cargo registry and target dir
+        uses: Swatinem/rust-cache@v2
+ 
+      - name: Determine diff range
+        id: diff-range
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            echo "range=origin/${{ github.base_ref }}...HEAD" >> "$GITHUB_OUTPUT"
+          else
+            echo "range=${{ github.event.before }}...${{ github.sha }}" >> "$GITHUB_OUTPUT"
+          fi
+ 
+      - name: Run cargo-mutants on diff
+        run: cargo mutants --in-diff <(git diff ${{ steps.diff-range.outputs.range }}) -- --all-targets
+ 
+      - name: Upload mutants report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutants-report
+          path: mutants.out
