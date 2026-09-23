@@ -6,7 +6,8 @@ pub struct EsResults {
 }
 
 impl EsResults {
-    pub fn to_csv(&self) -> String {
-        "".into()
+    #[must_use]
+    pub const fn to_csv(&self) -> String {
+        String::new()
     }
 }

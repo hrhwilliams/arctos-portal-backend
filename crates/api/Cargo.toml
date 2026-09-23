@@ -3,12 +3,6 @@ name = "api"
 version.workspace = true
 edition.workspace = true
 
-[profile.release]
-workspace = true
-
-[profile.dev.package."*"]
-workspace = true
-
 [lints]
 workspace = true
 

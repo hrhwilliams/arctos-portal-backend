@@ -17,6 +17,7 @@ const STAMP: Iso8601<
     },
 > = Iso8601;
 
+#[must_use]
 pub fn timestamp() -> String {
     OffsetDateTime::now_utc().format(&STAMP).unwrap_or_default()
 }
