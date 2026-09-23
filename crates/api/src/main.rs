@@ -14,10 +14,10 @@ async fn main() -> Result<(), std::io::Error> {
         .with(tracing_subscriber::EnvFilter::from_default_env())
         .init();
 
-    let port = std::env::var("PORT")
-        .expect("PORT must be set")
+    let port = std::env::var("APP_PORT")
+        .expect("APP_PORT must be set")
         .parse()
-        .expect("PORT must be in range 0-65535");
+        .expect("APP_PORT must be in range 0-65535");
 
     let elasticsearch_url =
         std::env::var("ELASTICSEARCH_URL").expect("ELASTICSEARCH_URL must be set");
