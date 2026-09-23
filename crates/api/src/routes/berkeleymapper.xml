@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<berkeleymapper>
+	<colors method="dynamicfield" fieldname="scientific_name" label="Scientific Name"></colors>
+	<concepts>
+		<concept order="1" viewlist="1" colorlist="0" datatype="guid" alias="guid"/>
+		<concept order="2" viewlist="1" colorlist="1" datatype="scientific_name" alias="scientific_name"/>
+		<concept order="3" viewlist="1" colorlist="0" datatype="related_guid" alias="related_guid"/>
+		<concept order="4" viewlist="1" colorlist="0" datatype="country" alias="country"/>
+		<concept order="5" viewlist="1" colorlist="0" datatype="state_prov" alias="state_prov"/>
+		<concept order="6" viewlist="1" colorlist="0" datatype="darwin:coordinateuncertaintyinmeters" alias="coordinateuncertaintyinmeters"/>
+		<concept order="7" viewlist="0" colorlist="0" datatype="darwin:decimallatitude" alias="dec_lat"/>
+		<concept order="8" viewlist="0" colorlist="0" datatype="darwin:decimallongitude" alias="dec_long"/>
+		<concept order="9" viewlist="1" colorlist="0" datatype="related_guids" alias="related_guids"/>
+	</concepts>
+</berkeleymapper>

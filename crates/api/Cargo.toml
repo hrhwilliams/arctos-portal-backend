@@ -1,0 +1,26 @@
+[package]
+name = "api"
+version.workspace = true
+edition.workspace = true
+
+[profile.release]
+workspace = true
+
+[profile.dev.package."*"]
+workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+backend = { path = "../backend" }
+
+axum = { version = "0.8.9", features = ["macros"] }
+reqwest = { version = "0.13.5", features = ["json"] }
+serde.workspace = true
+serde_json.workspace = true
+tokio = { version = "1.53.1", features = ["macros", "rt-multi-thread"] }
+tracing.workspace = true
+tracing-subscriber = { version = "0.3.22", features = ["env-filter", "json", "time"] }
+tower = "0.5.3"
+tower-http = "0.7.1"
